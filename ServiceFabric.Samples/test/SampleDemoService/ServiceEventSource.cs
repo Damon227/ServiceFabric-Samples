@@ -66,14 +66,14 @@ namespace SampleDemoService
             }
         }
 
-        private const int MessageEventId = 1;
+        private const int MESSAGE_EVENT_ID = 1;
 
-        [Event(MessageEventId, Level = EventLevel.Informational, Message = "{0}")]
+        [Event(MESSAGE_EVENT_ID, Level = EventLevel.Informational, Message = "{0}")]
         public void Message(string message)
         {
             if (IsEnabled())
             {
-                WriteEvent(MessageEventId, message);
+                WriteEvent(MESSAGE_EVENT_ID, message);
             }
         }
 
@@ -98,9 +98,9 @@ namespace SampleDemoService
         // For very high-frequency events it might be advantageous to raise events using WriteEventCore API.
         // This results in more efficient parameter handling, but requires explicit allocation of EventData structure and unsafe code.
         // To enable this code path, define UNSAFE conditional compilation symbol and turn on unsafe code support in project properties.
-        private const int ServiceMessageEventId = 2;
+        private const int SERVICE_MESSAGE_EVENT_ID = 2;
 
-        [Event(ServiceMessageEventId, Level = EventLevel.Informational, Message = "{7}")]
+        [Event(SERVICE_MESSAGE_EVENT_ID, Level = EventLevel.Informational, Message = "{7}")]
         private
 #if UNSAFE
         unsafe
@@ -116,7 +116,7 @@ namespace SampleDemoService
             string message)
         {
 #if !UNSAFE
-            WriteEvent(ServiceMessageEventId, serviceName, serviceTypeName, replicaOrInstanceId, partitionId, applicationName, applicationTypeName, nodeName, message);
+            WriteEvent(SERVICE_MESSAGE_EVENT_ID, serviceName, serviceTypeName, replicaOrInstanceId, partitionId, applicationName, applicationTypeName, nodeName, message);
 #else
             const int numArgs = 8;
             fixed (char* pServiceName = serviceName, pServiceTypeName = serviceTypeName, pApplicationName = applicationName, pApplicationTypeName = applicationTypeName, pNodeName = nodeName, pMessage = message)
@@ -131,44 +131,44 @@ namespace SampleDemoService
                 eventData[6] = new EventData { DataPointer = (IntPtr) pNodeName, Size = SizeInBytes(nodeName) };
                 eventData[7] = new EventData { DataPointer = (IntPtr) pMessage, Size = SizeInBytes(message) };
 
-                WriteEventCore(ServiceMessageEventId, numArgs, eventData);
+                WriteEventCore(SERVICE_MESSAGE_EVENT_ID, numArgs, eventData);
             }
 #endif
         }
 
-        private const int ServiceTypeRegisteredEventId = 3;
+        private const int SERVICE_TYPE_REGISTERED_EVENT_ID = 3;
 
-        [Event(ServiceTypeRegisteredEventId, Level = EventLevel.Informational, Message = "Service host process {0} registered service type {1}", Keywords = Keywords.ServiceInitialization)]
+        [Event(SERVICE_TYPE_REGISTERED_EVENT_ID, Level = EventLevel.Informational, Message = "Service host process {0} registered service type {1}", Keywords = Keywords.ServiceInitialization)]
         public void ServiceTypeRegistered(int hostProcessId, string serviceType)
         {
-            WriteEvent(ServiceTypeRegisteredEventId, hostProcessId, serviceType);
+            WriteEvent(SERVICE_TYPE_REGISTERED_EVENT_ID, hostProcessId, serviceType);
         }
 
-        private const int ServiceHostInitializationFailedEventId = 4;
+        private const int SERVICE_HOST_INITIALIZATION_FAILED_EVENT_ID = 4;
 
-        [Event(ServiceHostInitializationFailedEventId, Level = EventLevel.Error, Message = "Service host initialization failed", Keywords = Keywords.ServiceInitialization)]
+        [Event(SERVICE_HOST_INITIALIZATION_FAILED_EVENT_ID, Level = EventLevel.Error, Message = "Service host initialization failed", Keywords = Keywords.ServiceInitialization)]
         public void ServiceHostInitializationFailed(string exception)
         {
-            WriteEvent(ServiceHostInitializationFailedEventId, exception);
+            WriteEvent(SERVICE_HOST_INITIALIZATION_FAILED_EVENT_ID, exception);
         }
 
         // A pair of events sharing the same name prefix with a "Start"/"Stop" suffix implicitly marks boundaries of an event tracing activity.
         // These activities can be automatically picked up by debugging and profiling tools, which can compute their execution time, child activities,
         // and other statistics.
-        private const int ServiceRequestStartEventId = 5;
+        private const int SERVICE_REQUEST_START_EVENT_ID = 5;
 
-        [Event(ServiceRequestStartEventId, Level = EventLevel.Informational, Message = "Service request '{0}' started", Keywords = Keywords.Requests)]
+        [Event(SERVICE_REQUEST_START_EVENT_ID, Level = EventLevel.Informational, Message = "Service request '{0}' started", Keywords = Keywords.Requests)]
         public void ServiceRequestStart(string requestTypeName)
         {
-            WriteEvent(ServiceRequestStartEventId, requestTypeName);
+            WriteEvent(SERVICE_REQUEST_START_EVENT_ID, requestTypeName);
         }
 
-        private const int ServiceRequestStopEventId = 6;
+        private const int SERVICE_REQUEST_STOP_EVENT_ID = 6;
 
-        [Event(ServiceRequestStopEventId, Level = EventLevel.Informational, Message = "Service request '{0}' finished", Keywords = Keywords.Requests)]
+        [Event(SERVICE_REQUEST_STOP_EVENT_ID, Level = EventLevel.Informational, Message = "Service request '{0}' finished", Keywords = Keywords.Requests)]
         public void ServiceRequestStop(string requestTypeName, string exception = "")
         {
-            WriteEvent(ServiceRequestStopEventId, requestTypeName, exception);
+            WriteEvent(SERVICE_REQUEST_STOP_EVENT_ID, requestTypeName, exception);
         }
 
         #endregion
