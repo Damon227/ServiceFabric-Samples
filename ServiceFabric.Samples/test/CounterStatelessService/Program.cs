@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace SampleDemoService
+namespace CounterStatelessService
 {
     internal static class Program
     {
@@ -21,10 +21,10 @@ namespace SampleDemoService
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("SampleDemoServiceType",
-                    context => new SampleDemoService(context)).GetAwaiter().GetResult();
+                ServiceRuntime.RegisterServiceAsync("CounterStatelessServiceType",
+                    context => new CounterStatelessService(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(SampleDemoService).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(CounterStatelessService).Name);
 
                 // Prevents this host process from terminating so services keep running.
                 Thread.Sleep(Timeout.Infinite);

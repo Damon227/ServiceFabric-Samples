@@ -1,8 +1,8 @@
 ﻿// ***********************************************************************
 // Solution         : ServiceFabric.Samples
-// Project          : SampleDemoService
+// Project          : CounterStatelessService
 // File             : ServiceEventSource.cs
-// Created          : 2017-01-10  20:59
+// Created          : 2017-02-08  10:27
 // ***********************************************************************
 // <copyright>
 //     Copyright © 2016 Kolibre Credit Team. All rights reserved.
@@ -14,9 +14,9 @@ using System.Diagnostics.Tracing;
 using System.Fabric;
 using System.Threading.Tasks;
 
-namespace SampleDemoService
+namespace CounterStatelessService
 {
-    [EventSource(Name = "MyCompany-SampleDemoApplication-SampleDemoService")]
+    [EventSource(Name = "MyCompany-SampleDemoApplication-CounterStatelessService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
