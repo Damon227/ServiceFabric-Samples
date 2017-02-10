@@ -1,14 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="SampleDemoApplicationType" ApplicationTypeVersion="1.0.2" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="SampleDemoApplicationType" ApplicationTypeVersion="1.0.12" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
+    <Parameter Name="CounterStatefuleService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="CounterStatefuleService_PartitionCount" DefaultValue="1" />
+    <Parameter Name="CounterStatefuleService_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="CounterStatelessService_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="CounterActorServiceActorService_PartitionCount" DefaultValue="10" />
+    <Parameter Name="CounterActorServiceActorService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="CounterActorServiceActorService_TargetReplicaSetSize" DefaultValue="3" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="CounterStatelessServicePkg" ServiceManifestVersion="1.0.2" />
+    <ServiceManifestRef ServiceManifestName="CounterStatefuleServicePkg" ServiceManifestVersion="1.0.12" />
     <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="CounterStatelessServicePkg" ServiceManifestVersion="1.0.12" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="CounterActorServicePkg" ServiceManifestVersion="1.0.0" />
   </ServiceManifestImport>
   <DefaultServices>
     <!-- The section below creates instances of service types, when an instance of this 
@@ -16,10 +29,20 @@
          ServiceFabric PowerShell module.
          
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
+    <Service Name="CounterStatefuleService">
+      <StatefulService ServiceTypeName="CounterStatefuleServiceType" TargetReplicaSetSize="[CounterStatefuleService_TargetReplicaSetSize]" MinReplicaSetSize="[CounterStatefuleService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[CounterStatefuleService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
     <Service Name="CounterStatelessService">
       <StatelessService ServiceTypeName="CounterStatelessServiceType" InstanceCount="[CounterStatelessService_InstanceCount]">
         <SingletonPartition />
       </StatelessService>
+    </Service>
+    <Service Name="CounterActorServiceActorService" GeneratedIdRef="40a71fa2-98ea-4e02-909a-03dfa086e65f|Persisted">
+      <StatefulService ServiceTypeName="CounterActorServiceActorServiceType" TargetReplicaSetSize="[CounterActorServiceActorService_TargetReplicaSetSize]" MinReplicaSetSize="[CounterActorServiceActorService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[CounterActorServiceActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
     </Service>
   </DefaultServices>
 </ApplicationManifest>

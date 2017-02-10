@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="CounterActorServicePkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <ServiceTypes>
+    <StatefulServiceType ServiceTypeName="CounterActorServiceActorServiceType" HasPersistedState="true">
+      <Extensions>
+        <Extension Name="__GeneratedServiceType__" GeneratedId="40a71fa2-98ea-4e02-909a-03dfa086e65f|Persisted">
+          <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
+            <DefaultService Name="CounterActorServiceActorService" />
+            <ServiceEndpoint Name="CounterActorServiceActorServiceEndpoint" />
+            <ReplicatorEndpoint Name="CounterActorServiceActorServiceReplicatorEndpoint" />
+            <ReplicatorConfigSection Name="CounterActorServiceActorServiceReplicatorConfig" />
+            <ReplicatorSecurityConfigSection Name="CounterActorServiceActorServiceReplicatorSecurityConfig" />
+            <StoreConfigSection Name="CounterActorServiceActorServiceLocalStoreConfig" />
+          </GeneratedNames>
+        </Extension>
+      </Extensions>
+    </StatefulServiceType>
+  </ServiceTypes>
+  <CodePackage Name="Code" Version="1.0.0">
+    <EntryPoint>
+      <ExeHost>
+        <Program>CounterActorService.exe</Program>
+      </ExeHost>
+    </EntryPoint>
+  </CodePackage>
+  <ConfigPackage Name="Config" Version="1.0.0" />
+  <Resources>
+    <Endpoints>
+      <Endpoint Name="CounterActorServiceActorServiceEndpoint" />
+      <Endpoint Name="CounterActorServiceActorServiceReplicatorEndpoint" />
+    </Endpoints>
+  </Resources>
+  <!-- The content will be generated during build -->
+</ServiceManifest>

@@ -1,8 +1,8 @@
 ﻿// ***********************************************************************
 // Solution         : ServiceFabric.Samples
-// Project          : CountStatelessClient
+// Project          : CounterStatefuleClient
 // File             : Program.cs
-// Created          : 2017-02-08  11:13
+// Created          : 2017-02-09  14:49
 // ***********************************************************************
 // <copyright>
 //     Copyright © 2016 Kolibre Credit Team. All rights reserved.
@@ -11,31 +11,31 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using CounterStatelessService.Interface;
+using System.Threading.Tasks;
+using CounterStatefuleService.Interface;
+using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 
-namespace CountStatelessClient
+namespace CounterStatefuleClient
 {
     internal class Program
     {
         [SuppressMessage("ReSharper", "FunctionNeverReturns")]
         private static void Main(string[] args)
         {
-            ICounterStatelessService counterStatelessService = ServiceProxy.Create<ICounterStatelessService>(
-                new Uri("fabric:/SampleDemoApplication/CounterStatelessService"));
+            ICounterStatefuleService counterStatefuleService = ServiceProxy.Create<ICounterStatefuleService>(
+                new Uri("fabric:/SampleDemoApplication/CounterStatefuleService"), new ServicePartitionKey(-1));
 
-            counterStatelessService.ResetAsync().Wait();
+
+            //counterStatefuleService.ResetAsync().Wait();
 
             while (true)
             {
-                try
-                {
-                    Console.WriteLine(counterStatelessService.CountAsync().GetAwaiter().GetResult());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                string result = counterStatefuleService.CountAsync().GetAwaiter().GetResult();
+
+                Console.WriteLine(result);
+
+                Task.Delay(TimeSpan.FromSeconds(3)).Wait();
             }
         }
     }
