@@ -124,6 +124,10 @@ namespace CounterStatefuleService
 
                 ServiceEventSource.Current.ServiceMessage(Context, "Working-{0}", ++iterations);
 
+
+                //ILogger<CounterStatefuleService> logger = loggerFactory.CreateLogger<CounterStatefuleService>();
+                //logger.LogInformation(1, DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             }
         }

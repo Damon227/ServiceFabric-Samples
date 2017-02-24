@@ -13,6 +13,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using CounterStatefuleService.Interface;
+using Microsoft.Extensions.Logging;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 
@@ -31,6 +32,13 @@ namespace CounterStatefuleClient
 
             while (true)
             {
+                ILoggerFactory loggerFactory = new LoggerFactory();
+                loggerFactory.AddConsole();
+
+                ILogger logger = loggerFactory.CreateLogger("Program");
+
+                logger.LogInformation(1, DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
                 string result = counterStatefuleService.CountAsync().GetAwaiter().GetResult();
 
                 Console.WriteLine(result);

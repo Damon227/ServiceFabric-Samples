@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "GodLog.Foundation.Logging.ServiceFabric": "1.0.0",
+    "Microsoft.Extensions.Logging": "1.1.0",
+    "Microsoft.Extensions.Logging.Abstractions": "1.1.0"
+  },
+
+  "frameworks": {
+    "net452": {
+    }
+  }
+}

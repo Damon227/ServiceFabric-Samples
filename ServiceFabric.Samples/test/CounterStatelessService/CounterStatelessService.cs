@@ -38,8 +38,14 @@ namespace CounterStatelessService
 
         public async Task<string> CountAsync()
         {
+            //ILoggerFactory loggerFactory = new LoggerFactory();
+            //ILogger<CounterStatelessService> logger = loggerFactory.CreateLogger<CounterStatelessService>();
+
             await Task.Delay(TimeSpan.FromSeconds(3));
             _number++;
+
+            //logger.LogInformation(1, $"Current number is {_number}, from instance {Context.InstanceId}");
+
             return $"Current number is {_number}, from instance {Context.InstanceId}";
         }
 
